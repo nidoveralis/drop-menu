@@ -47,18 +47,19 @@ function App() {
     if (!activeMenu) {
       openMenu();
       if (el.current) {
-        //const boundingRect = el.current.getBoundingClientRect();
-        const boundingRect = el.current;
+        const boundingRect = el.current.getBoundingClientRect();
+        const boundingElement = el.current;
         //const a = el.current.getBoundingClientRect();
-        //console.log(a - boundingRect.offsetTop);
+        //console.log(window.innerHeight - boundingRect.offsetTop );
+        console.log(window.innerHeight - boundingRect.top, boundingRect);
         const positionX =
-          window.innerWidth - boundingRect.offsetLeft >= 260
-            ? Math.floor(boundingRect.offsetLeft)
-            : Math.floor(boundingRect.offsetLeft - 260 + boundingRect.offsetWidth);
+          window.innerWidth - boundingElement.offsetLeft >= 260
+            ? Math.floor(boundingElement.offsetLeft)
+            : Math.floor(boundingElement.offsetLeft - 260 + boundingElement.offsetWidth);
         const positionY =
-          window.innerHeight - boundingRect.offsetTop >= 135
-            ? Math.floor(boundingRect.offsetTop + boundingRect.offsetHeight)
-            : Math.floor(boundingRect.offsetTop - 135);
+          window.innerHeight - boundingRect.top >= 135
+            ? Math.floor(boundingElement.offsetTop + boundingElement.offsetHeight)
+            : Math.floor(boundingElement.offsetTop - 135);
         setCoordinatMenut({ x: positionX, y: positionY });
         setItems(content);
       }
