@@ -14,7 +14,7 @@
 
 .container {
   width: 100vw;
-  height: 100%;
+  height: 200vh;
   position: absolute;
   top: 0;
   background-color: #282c34;
@@ -41,5 +41,6 @@
 
 
 .right_menu {
+  top: 360px;
   right: 40px;
 }
