@@ -14,7 +14,6 @@ interface MenuProps {
   closeMenu: () => void;
 }
 function Menu({ coordinatMenu, items, closeMenu }: MenuProps) {
-  console.log(coordinatMenu);
   return (
     <div className={styles.drop} style={{ top: coordinatMenu.y, left: coordinatMenu.x }}>
       {items.map((item) => (

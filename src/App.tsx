@@ -2,7 +2,7 @@ import styles from './styles.module.css';
 import cn from 'classnames';
 import DropDownMenu from './components/DropDownMenu/DropDownMenu';
 import Menu from './components/Menu/Menu';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface MenuItem {
   id: number;
@@ -32,26 +32,26 @@ function App() {
   const menuRef = useRef<HTMLButtonElement>(null);
   const menuLeftRef = useRef<HTMLButtonElement>(null);
   const menuRightRef = useRef<HTMLButtonElement>(null);
-  const [activeMenu, setActiveMenut] = useState(false);
+  const [scrollWin, setScrollWin] = useState(0);
+  const [activeMenu, setActiveMenu] = useState(false);
+  const [activeButton, setActiveButton] = useState<React.RefObject<HTMLButtonElement>>(menuLeftRef);
   const [items, setItems] = useState<MenuItem[]>([]);
   const [coordinatMenu, setCoordinatMenut] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   function closeMenu() {
-    setActiveMenut(false);
+    setActiveMenu(false);
     setItems([]);
     setCoordinatMenut({ x: 0, y: 0 });
   }
   function openMenu() {
-    setActiveMenut(true);
+    setActiveMenu(true);
   }
   function handleClick(el: React.RefObject<HTMLButtonElement>) {
     if (!activeMenu) {
       openMenu();
       if (el.current) {
+        setActiveButton(el);
         const boundingRect = el.current.getBoundingClientRect();
         const boundingElement = el.current;
-        //const a = el.current.getBoundingClientRect();
-        //console.log(window.innerHeight - boundingRect.offsetTop );
-        console.log(window.innerHeight - boundingRect.top, boundingRect);
         const positionX =
           window.innerWidth - boundingElement.offsetLeft >= 260
             ? Math.floor(boundingElement.offsetLeft)
@@ -73,6 +73,25 @@ function App() {
       closeMenu();
     }
   }
+
+  useEffect(() => {
+    const handleScroll = (event: Event) => {
+      setScrollWin(window.scrollY);
+      if (window.scrollY > coordinatMenu.y) {
+        handleClick(activeButton);
+        console.log(coordinatMenu);
+      } else if (window.scrollY > coordinatMenu.y + 135) {
+        console.log('lllll');
+      }
+      console.log(coordinatMenu, window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [activeMenu]);
 
   return (
     <div className={styles.App}>
@@ -98,4 +117,3 @@ function App() {
 }
 
 export default App;
-//            // ? Math.floor(boundingRect.y + boundingRect.height)
