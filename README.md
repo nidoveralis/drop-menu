@@ -1,4 +1,4 @@
-# Flex menu
+# Drop menu
 
 ## Описание
 
